@@ -411,7 +411,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-09 23:31:28" itemprop="dateModified" datetime="2019-09-09T23:31:28+08:00">2019-09-09</time>
+                <time title="修改时间：2019-09-09 23:51:40" itemprop="dateModified" datetime="2019-09-09T23:51:40+08:00">2019-09-09</time>
               
             
           </span>
@@ -439,20 +439,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/09/04/mysql/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/09/04/mysql/" class="cy_cmt_count" data-xid="2019/09/04/mysql/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -464,7 +450,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -487,13 +473,6 @@
 <li>仅支持等值查询，不支持范围查询。</li>
 <li>不支持前缀匹配</li>
 </ul>
-<h3 id="索引覆盖"><a href="#索引覆盖" class="headerlink" title="索引覆盖"></a>索引覆盖</h3><p>SQL 查询所需所有字段可通过索引获得，无需回表。<br>例如： 存在学生表如下所示</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>,</span><br><span class="line">    score <span class="keyword">Double</span>,</span><br><span class="line">    primary <span class="keyword">key</span>(<span class="string">'id'</span>),</span><br><span class="line">    <span class="keyword">key</span> IDX_NAME(<span class="string">'name'</span>)</span><br><span class="line">) <span class="keyword">set</span> <span class="keyword">engine</span>=<span class="keyword">innodb</span>;</span><br></pre></td></tr></table></figure>
-
-<p>查询：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">from</span> student <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'张三 '</span></span><br></pre></td></tr></table></figure>
-
-<p>在 <code>name</code> 列存在辅助索引，且InnoDB存储引擎中辅助索引叶子节点包含主键的值。<code>id</code>,<code>name</code>  两列的值均可从辅助索引 IDX_NAME 中获得无需回表，符合索引覆盖的条件。</p>
 <h3 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B-Tree索引"></a>B-Tree索引</h3><p>目前大部分数据库采用 B-Tree 或其变种 B+Tree 实现索引。索引文件本身也很大，无法全部载入内存，需存储在磁盘。在数据检索时需将索引按块载入内存，产生磁盘IO。相比于内存读写，磁盘IO时间复杂度要高几个数量级。因此评价数据结构作为索引的优劣时最重要的一个指标就是磁盘IO次数渐进复杂度。索引实现时应尽量减少磁盘IO次数。</p>
 <h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><ul>
 <li>B-Tree 即 平衡多路查找树(Balance Tree)。相比于二叉平衡树，每个节包含的关键字多了，可极大降低树的高度，并充分利用磁盘局部读写特性，加速数据库查询。<ul>
@@ -506,7 +485,14 @@
 </ul>
 </li>
 </ul>
-<h4 id="InnoDb-索引实现"><a href="#InnoDb-索引实现" class="headerlink" title="InnoDb 索引实现"></a>InnoDb 索引实现</h4><h4 id="MyISAM-索引实现"><a href="#MyISAM-索引实现" class="headerlink" title="MyISAM 索引实现"></a>MyISAM 索引实现</h4><h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p>数据库通过加锁来保证事务的隔离级别。在MySQL中事务隔离级别包含如下四种：</p>
+<h4 id="InnoDb-索引实现"><a href="#InnoDb-索引实现" class="headerlink" title="InnoDb 索引实现"></a>InnoDb 索引实现</h4><h4 id="MyISAM-索引实现"><a href="#MyISAM-索引实现" class="headerlink" title="MyISAM 索引实现"></a>MyISAM 索引实现</h4><h4 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h4><h5 id="索引覆盖"><a href="#索引覆盖" class="headerlink" title="索引覆盖"></a>索引覆盖</h5><p>SQL 查询所需所有字段可通过索引获得，无需回表。<br>例如： 存在学生表如下所示</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student(</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span>,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>,</span><br><span class="line">    score <span class="keyword">Double</span>,</span><br><span class="line">    primary <span class="keyword">key</span>(<span class="string">'id'</span>),</span><br><span class="line">    <span class="keyword">key</span> IDX_NAME(<span class="string">'name'</span>)</span><br><span class="line">) <span class="keyword">set</span> <span class="keyword">engine</span>=<span class="keyword">innodb</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">from</span> student <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'张三 '</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>name</code> 列存在辅助索引，且InnoDB存储引擎中辅助索引叶子节点包含主键的值。<code>id</code>,<code>name</code>  两列的值均可从辅助索引 IDX_NAME 中获得无需回表，符合索引覆盖的条件。</p>
+<h5 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h5><h2 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h2><h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p>数据库通过加锁来保证事务的隔离级别。在MySQL中事务隔离级别包含如下四种：</p>
 <table>
 <thead>
 <tr>
@@ -680,20 +666,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/08/23/Security-Framwork/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/08/23/Security-Framwork/" class="cy_cmt_count" data-xid="2019/08/23/Security-Framwork/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -705,7 +677,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -885,20 +857,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/08/08/Maven使用/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/08/08/Maven使用/" class="cy_cmt_count" data-xid="2019/08/08/Maven使用/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -910,7 +868,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -1099,20 +1057,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/07/25/distribute-transcation/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/07/25/distribute-transcation/" class="cy_cmt_count" data-xid="2019/07/25/distribute-transcation/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -1124,7 +1068,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -1329,20 +1273,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/06/25/消息队列/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/06/25/消息队列/" class="cy_cmt_count" data-xid="2019/06/25/消息队列/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -1354,7 +1284,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -1533,20 +1463,6 @@
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-              
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/06/06/hexo构建bolg并托管到github备忘/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::/2019/06/06/hexo构建bolg并托管到github备忘/" class="cy_cmt_count" data-xid="2019/06/06/hexo构建bolg并托管到github备忘/" itemprop="commentCount"></span>
-                </a>
-              
-            
           
 
           
@@ -1558,7 +1474,7 @@
 
           
 
-        </span></div>
+        </div>
       </header>
     
 
@@ -1902,11 +1818,6 @@
   
 
   
-  
-  <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyupd4oHf"></script>
-
-
-
 
 
 
